@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { OCCUPANCY_SUMMARY } from '../data/initialData';
 import { Eye, EyeOff, LogIn, BedDouble, Dumbbell, ClipboardList } from 'lucide-react';
 
 const STATS = [
-  { icon: BedDouble,     label: 'Total Beds',         value: '15,619', sub: 'Across 13 depots' },
-  { icon: Dumbbell,      label: 'Gym Members',         value: '1,755',  sub: 'Active subscriptions' },
-  { icon: ClipboardList, label: 'Inspection Records',  value: '2,179',  sub: 'Facilities tracked' },
+  { icon: BedDouble,     label: 'Total Beds',        value: '15,619', sub: 'Across 13 depots' },
+  { icon: Dumbbell,      label: 'Gym Members',        value: '1,755',  sub: 'Active subscriptions' },
+  { icon: ClipboardList, label: 'Inspection Records', value: '2,179',  sub: 'Facilities tracked' },
 ];
 
 export default function LoginPage() {
@@ -69,7 +68,7 @@ export default function LoginPage() {
           ))}
         </div>
 
-        {/* Footer text */}
+        {/* Footer */}
         <div className="relative z-10 text-slate-600 text-xs">
           &copy; {new Date().getFullYear()} Mowasalat (Karwa). All rights reserved.
         </div>

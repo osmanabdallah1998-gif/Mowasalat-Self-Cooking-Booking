@@ -13,7 +13,7 @@ export default function Modal({ title, onClose, children, wide = false }) {
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-3xl shadow-2xl border border-slate-100 w-full ${wide ? 'max-w-2xl' : 'max-w-lg'} max-h-[90vh] flex flex-col animate-fade-in`}
+        className={`bg-white rounded-3xl shadow-2xl border border-slate-100 w-full mx-4 ${wide ? 'max-w-2xl' : 'max-w-lg'} max-h-[90vh] flex flex-col animate-fade-in`}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E8F0] shrink-0">
