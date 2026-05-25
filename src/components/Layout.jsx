@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { LayoutDashboard, Dumbbell, Wrench, Building2, LogOut, Menu } from 'lucide-react';
+import { LayoutDashboard, Dumbbell, Wrench, Building2, LogOut, Menu, Upload } from 'lucide-react';
+import ImportDataModal from './ImportDataModal';
 
 const NAV = [
   { to: '/',            label: 'Dashboard',       icon: LayoutDashboard, end: true },
@@ -14,6 +15,7 @@ export default function Layout() {
   const { user, logout, maintenance } = useApp();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [showImport, setShowImport] = useState(false);
 
   const openCount = maintenance.filter(m =>
     m.status === 'Open' || m.status === 'Pending' || m.status === 'In Progress' || m.status === 'Pending (Internal)'
@@ -93,7 +95,11 @@ export default function Layout() {
             <Menu size={22} />
           </button>
           <span className="font-bold text-gray-800">Karwa Accommodation</span>
-          <span className="ml-auto text-sm text-gray-400">
+          <button onClick={() => setShowImport(true)}
+            className="ml-auto flex items-center gap-1.5 border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-[#8CC63F] hover:text-[#558B2F] px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+            <Upload size={13} /> Import Data
+          </button>
+          <span className="text-sm text-gray-400 hidden sm:block">
             {new Date().toLocaleDateString('en-GB', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
           </span>
         </header>
@@ -101,6 +107,7 @@ export default function Layout() {
           <Outlet />
         </main>
       </div>
+      {showImport && <ImportDataModal onClose={() => setShowImport(false)} />}
     </div>
   );
 }

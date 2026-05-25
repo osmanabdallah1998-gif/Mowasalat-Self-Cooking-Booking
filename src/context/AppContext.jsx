@@ -17,7 +17,7 @@ export function AppProvider({ children }) {
   const [locations, setLocations]     = useState(() => load('karwa_locations', LOCATIONS));
   const [tenants, setTenants]         = useState(() => load('karwa_tenants', INITIAL_TENANTS));
   const [maintenance, setMaintenance] = useState(() => load('karwa_maintenance', INITIAL_MAINTENANCE));
-  const [gymMembers]                  = useState(GYM_MEMBERS);
+  const [gymMembers, setGymMembers]   = useState(() => load('karwa_gym', GYM_MEMBERS));
   const [familyUnits]                 = useState(FAMILY_UNITS);
   const [syncStatus, setSyncStatus]   = useState('offline'); // 'offline' | 'connecting' | 'online' | 'error'
   const unsubRefs = useRef([]);
@@ -168,6 +168,14 @@ export function AppProvider({ children }) {
     const item = updated.find(r => r.id === id);
     if (item) await _write('maintenance', item);
   };
+  const importMaintenance = (records) => {
+    setMaintenance(records);
+    localStorage.setItem('karwa_maintenance', JSON.stringify(records));
+  };
+  const importGymMembers = (records) => {
+    setGymMembers(records);
+    localStorage.setItem('karwa_gym', JSON.stringify(records));
+  };
 
   return (
     <AppContext.Provider value={{
@@ -175,8 +183,8 @@ export function AppProvider({ children }) {
       locations, tenants, maintenance, gymMembers, familyUnits,
       syncStatus, connectToFirebase, disconnectFirebase, pushLocalDataToFirebase,
       addTenant, removeTenant, updateTenantStatus, importTenants,
-      addMaintenanceRequest, updateMaintenanceStatus,
-      updateLocationCapacity, importLocations,
+      addMaintenanceRequest, updateMaintenanceStatus, importMaintenance,
+      importGymMembers, updateLocationCapacity, importLocations,
     }}>
       {children}
     </AppContext.Provider>
