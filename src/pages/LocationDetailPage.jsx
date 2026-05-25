@@ -26,7 +26,7 @@ export default function LocationDetailPage() {
 
   const locationTenants = tenants.filter(t => t.locationId === id);
   const locationMaint   = maintenance.filter(m => m.locationId === id);
-  const openIssues      = locationMaint.filter(m => m.status !== 'Resolved').length;
+  const openIssues      = locationMaint.filter(m => m.status !== 'Resolved' && m.status !== 'Completed').length;
   const pct = data.capacity ? Math.round((data.occupancy / data.capacity) * 100) : null;
   const barColor = pct >= 95 ? 'bg-red-500' : pct >= 80 ? 'bg-amber-400' : 'bg-[#8CC63F]';
 
@@ -104,9 +104,11 @@ export default function LocationDetailPage() {
                     <span className="font-semibold text-sm">Manager</span>
                   </div>
                   <div className="font-bold text-gray-800">{data.manager}</div>
-                  <div className="text-sm text-gray-500 flex items-center mt-1 gap-1">
-                    <Phone size={13} /> {data.contact}
-                  </div>
+                  {data.contact && (
+                    <div className="text-sm text-gray-500 flex items-center mt-1 gap-1">
+                      <Phone size={13} /> {data.contact}
+                    </div>
+                  )}
                   <div className="mt-2 text-xs text-gray-400 flex items-center gap-1">
                     <Users size={12} /> {locationTenants.length} registered tenants
                   </div>
@@ -118,7 +120,7 @@ export default function LocationDetailPage() {
                 {[
                   { label: 'Total Issues',       value: locationMaint.length,                                    color: 'text-gray-800' },
                   { label: 'Open / In Progress', value: openIssues,                                              color: openIssues > 0 ? 'text-red-600' : 'text-green-600' },
-                  { label: 'Resolved',           value: locationMaint.filter(m => m.status === 'Resolved').length, color: 'text-green-600' },
+                  { label: 'Resolved',           value: locationMaint.filter(m => m.status === 'Resolved' || m.status === 'Completed').length, color: 'text-green-600' },
                 ].map(({ label, value, color }) => (
                   <div key={label} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
                     <div className={`text-xl font-bold ${color}`}>{value}</div>
@@ -127,17 +129,17 @@ export default function LocationDetailPage() {
                 ))}
               </div>
 
-              {/* Features */}
-              <div>
-                <h3 className="text-base font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">Facility Features</h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {data.features.map((f, i) => (
-                    <li key={i} className="flex items-center text-sm text-gray-700 gap-2">
-                      <div className="w-2 h-2 bg-[#8CC63F] rounded-full shrink-0" /> {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {/* Blocks / Features */}
+              {data.blocks && data.blocks.length > 0 && (
+                <div>
+                  <h3 className="text-base font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">Blocks / Zones</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {data.blocks.map((b, i) => (
+                      <span key={i} className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-lg border border-gray-200">{b}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Actions */}
