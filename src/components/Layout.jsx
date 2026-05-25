@@ -3,7 +3,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
   LayoutDashboard, Building2, Users, Wrench,
-  BarChart3, LogOut, Menu, X,
+  BarChart3, LogOut, Menu, Settings, Wifi, WifiOff,
 } from 'lucide-react';
 
 const NAV = [
@@ -12,31 +12,41 @@ const NAV = [
   { to: '/tenants',     label: 'Tenants',     icon: Users },
   { to: '/maintenance', label: 'Maintenance', icon: Wrench },
   { to: '/reports',     label: 'Reports',     icon: BarChart3 },
+  { to: '/settings',    label: 'Settings',    icon: Settings },
 ];
 
+const STATUS_STYLES = {
+  online:     'bg-green-500',
+  connecting: 'bg-yellow-400 animate-pulse',
+  error:      'bg-red-500',
+  offline:    'bg-gray-400',
+};
+
 export default function Layout() {
-  const { user, logout, maintenance } = useApp();
+  const { user, logout, maintenance, syncStatus } = useApp();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const openCount = maintenance.filter(m => m.status === 'Open').length;
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
-  const Sidebar = () => (
-    <aside className="w-64 bg-[#005F9E] text-white flex flex-col h-full">
-      <div className="p-5 border-b border-white/20">
+  const SidebarContent = () => (
+    <aside className="w-64 bg-gray-800 text-white flex flex-col h-full">
+      {/* Logo */}
+      <div className="p-5 border-b border-white/10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shrink-0">
-            <span className="text-[#005F9E] font-bold text-lg">K</span>
+          <div className="w-10 h-10 bg-[#8CC63F] rounded-xl flex items-center justify-center shrink-0">
+            <span className="text-white font-black text-lg">K</span>
           </div>
           <div>
-            <div className="font-bold text-sm leading-tight">MOWASALAT</div>
-            <div className="text-[#8CC63F] text-xs">Accommodation Portal</div>
+            <div className="font-bold text-sm leading-tight text-white">MOWASALAT</div>
+            <div className="text-[#8CC63F] text-xs font-medium">Accommodation Portal</div>
           </div>
         </div>
       </div>
 
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      {/* Navigation */}
+      <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
         {NAV.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
@@ -44,8 +54,10 @@ export default function Layout() {
             end={end}
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                isActive ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white'
+              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-[#8CC63F] text-white'
+                  : 'text-gray-300 hover:bg-white/10 hover:text-white'
               }`
             }
           >
@@ -60,22 +72,30 @@ export default function Layout() {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-white/20">
-        <div className="flex items-center gap-3 mb-3 px-1">
+      {/* Sync status + user */}
+      <div className="p-4 border-t border-white/10 space-y-3">
+        <div className="flex items-center gap-2 px-1">
+          <div className={`w-2 h-2 rounded-full shrink-0 ${STATUS_STYLES[syncStatus]}`} />
+          <span className="text-xs text-gray-400 capitalize">
+            {syncStatus === 'online' ? 'Live — Firebase' : syncStatus === 'connecting' ? 'Connecting…' : 'Offline mode'}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 px-1">
           <div className="w-8 h-8 bg-[#8CC63F] rounded-full flex items-center justify-center text-sm font-bold shrink-0">
             {user?.name?.[0]}
           </div>
-          <div className="min-w-0">
-            <div className="text-sm font-medium truncate">{user?.name}</div>
-            <div className="text-xs text-white/60 truncate">{user?.role}</div>
+          <div className="min-w-0 flex-1">
+            <div className="text-sm font-medium text-white truncate">{user?.name}</div>
+            <div className="text-xs text-gray-400 truncate">{user?.role}</div>
           </div>
         </div>
+
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
         >
-          <LogOut size={16} />
-          Sign Out
+          <LogOut size={15} /> Sign Out
         </button>
       </div>
     </aside>
@@ -83,30 +103,30 @@ export default function Layout() {
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
-      {/* Desktop sidebar */}
-      <div className="hidden md:flex shrink-0">
-        <Sidebar />
-      </div>
+      {/* Desktop */}
+      <div className="hidden md:flex shrink-0"><SidebarContent /></div>
 
-      {/* Mobile sidebar */}
+      {/* Mobile overlay */}
       {open && (
         <>
           <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={() => setOpen(false)} />
-          <div className="fixed inset-y-0 left-0 z-50 md:hidden">
-            <Sidebar />
-          </div>
+          <div className="fixed inset-y-0 left-0 z-50 md:hidden"><SidebarContent /></div>
         </>
       )}
 
-      {/* Main area */}
+      {/* Main */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-white shadow-sm px-4 md:px-6 py-4 flex items-center gap-4 shrink-0">
+        <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-3 flex items-center gap-4 shrink-0">
           <button className="md:hidden text-gray-500 hover:text-gray-800" onClick={() => setOpen(true)}>
             <Menu size={22} />
           </button>
-          <span className="text-base font-semibold text-[#005F9E] hidden md:block">
-            Karwa Accommodation Management
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-base font-bold text-gray-800 hidden md:block">Karwa Accommodation</span>
+            {syncStatus === 'online'
+              ? <Wifi size={16} className="text-[#8CC63F]" title="Live data" />
+              : <WifiOff size={16} className="text-gray-400" title="Offline" />
+            }
+          </div>
           <span className="ml-auto text-sm text-gray-400">
             {new Date().toLocaleDateString('en-GB', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
           </span>

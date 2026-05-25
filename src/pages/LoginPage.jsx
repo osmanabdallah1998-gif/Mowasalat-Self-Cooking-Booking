@@ -15,7 +15,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 400));
     if (login(form.username, form.password)) {
       navigate('/');
     } else {
@@ -25,18 +25,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#005F9E] to-[#003d6b] flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo card */}
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5"
+        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #8CC63F 1px, transparent 0)', backgroundSize: '32px 32px' }}
+      />
+
+      <div className="w-full max-w-md relative">
+        {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-lg mb-4">
-            <span className="text-[#005F9E] font-black text-3xl">K</span>
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-[#8CC63F] rounded-2xl shadow-2xl mb-4">
+            <span className="text-white font-black text-4xl">K</span>
           </div>
           <h1 className="text-white text-2xl font-bold tracking-wide">MOWASALAT (KARWA)</h1>
           <p className="text-[#8CC63F] text-sm font-semibold tracking-wider mt-1">ACCOMMODATION MANAGEMENT PORTAL</p>
         </div>
 
-        {/* Form card */}
+        {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <h2 className="text-xl font-bold text-gray-800 mb-6">Sign In</h2>
 
@@ -53,7 +58,7 @@ export default function LoginPage() {
                 type="text"
                 value={form.username}
                 onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#005F9E] focus:border-transparent"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8CC63F] focus:border-transparent"
                 placeholder="Enter username"
                 required
                 autoComplete="username"
@@ -67,16 +72,13 @@ export default function LoginPage() {
                   type={showPw ? 'text' : 'password'}
                   value={form.password}
                   onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-[#005F9E] focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-[#8CC63F] focus:border-transparent"
                   placeholder="Enter password"
                   required
                   autoComplete="current-password"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPw(v => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
+                <button type="button" onClick={() => setShowPw(v => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
@@ -85,20 +87,19 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#005F9E] hover:bg-[#004a7c] disabled:opacity-60 text-white py-2.5 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors"
+              className="w-full bg-[#8CC63F] hover:bg-[#7AB035] disabled:opacity-60 text-white py-2.5 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
             >
-              {loading ? (
-                <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-              ) : (
-                <><LogIn size={16} /> Sign In</>
-              )}
+              {loading
+                ? <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                : <><LogIn size={16} /> Sign In</>
+              }
             </button>
           </form>
 
           <div className="mt-6 p-3 bg-gray-50 rounded-lg text-xs text-gray-500">
-            <span className="font-semibold">Demo credentials:</span>{' '}
-            username&nbsp;<code className="bg-gray-200 px-1 rounded">admin</code>&nbsp;/&nbsp;
-            password&nbsp;<code className="bg-gray-200 px-1 rounded">karwa2024</code>
+            <span className="font-semibold">Demo:</span>{' '}
+            <code className="bg-gray-200 px-1 rounded">admin</code> /{' '}
+            <code className="bg-gray-200 px-1 rounded">karwa2024</code>
           </div>
         </div>
       </div>

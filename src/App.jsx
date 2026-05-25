@@ -8,6 +8,7 @@ import LocationDetailPage from './pages/LocationDetailPage';
 import TenantsPage from './pages/TenantsPage';
 import MaintenancePage from './pages/MaintenancePage';
 import ReportsPage from './pages/ReportsPage';
+import SettingsPage from './pages/SettingsPage';
 
 function Guard({ children }) {
   const { user } = useApp();
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="tenants" element={<TenantsPage />} />
         <Route path="maintenance" element={<MaintenancePage />} />
         <Route path="reports" element={<ReportsPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

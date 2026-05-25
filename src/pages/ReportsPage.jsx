@@ -67,7 +67,7 @@ export default function ReportsPage() {
           { label: 'Admin Units',       value: adminUnits,                  sub: 'units total' },
         ].map(({ label, value, sub }) => (
           <div key={label} className="bg-white rounded-xl shadow-sm p-4 text-center">
-            <div className="text-2xl font-bold text-[#005F9E]">{value}</div>
+            <div className="text-2xl font-bold text-[#8CC63F]">{value}</div>
             <div className="text-xs text-gray-500 mt-0.5">{label}</div>
             {sub && <div className="text-xs text-gray-400">{sub}</div>}
           </div>
@@ -126,7 +126,7 @@ export default function ReportsPage() {
                 );
               })}
             </tbody>
-            <tfoot className="bg-[#005F9E]/5 font-semibold">
+            <tfoot className="bg-[#8CC63F]/10 font-semibold">
               <tr>
                 <td className="px-4 py-3 text-sm text-gray-800">TOTAL</td>
                 <td className="hidden sm:table-cell" />
