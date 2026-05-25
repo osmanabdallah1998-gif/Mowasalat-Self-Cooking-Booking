@@ -3,16 +3,18 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
   LayoutDashboard, Building2, Users, Wrench,
-  BarChart3, LogOut, Menu, Settings, Wifi, WifiOff,
+  BarChart3, LogOut, Menu, Settings, Wifi, WifiOff, Dumbbell, Home,
 } from 'lucide-react';
 
 const NAV = [
-  { to: '/',            label: 'Dashboard',   icon: LayoutDashboard, end: true },
-  { to: '/locations',   label: 'Locations',   icon: Building2 },
-  { to: '/tenants',     label: 'Tenants',     icon: Users },
-  { to: '/maintenance', label: 'Maintenance', icon: Wrench },
-  { to: '/reports',     label: 'Reports',     icon: BarChart3 },
-  { to: '/settings',    label: 'Settings',    icon: Settings },
+  { to: '/',            label: 'Dashboard',     icon: LayoutDashboard, end: true },
+  { to: '/locations',   label: 'Locations',     icon: Building2 },
+  { to: '/tenants',     label: 'Residents',     icon: Users },
+  { to: '/maintenance', label: 'Maintenance',   icon: Wrench },
+  { to: '/gym',         label: 'Gym Members',   icon: Dumbbell },
+  { to: '/family',      label: 'Family Acco.',  icon: Home },
+  { to: '/reports',     label: 'Reports',       icon: BarChart3 },
+  { to: '/settings',    label: 'Settings',      icon: Settings },
 ];
 
 const STATUS_STYLES = {

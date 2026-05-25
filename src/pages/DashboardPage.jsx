@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { Users, Building2, Wrench, TrendingUp, AlertTriangle, ChevronRight } from 'lucide-react';
+import { OCCUPANCY_SUMMARY } from '../data/initialData';
+import { Users, Building2, Wrench, TrendingUp, AlertTriangle, ChevronRight, Dumbbell, Home } from 'lucide-react';
 
 const PRIORITY_COLOR = {
   Critical: 'bg-red-100 text-red-700',
@@ -55,7 +56,7 @@ function OccupancyRow({ loc, onClick }) {
 }
 
 export default function DashboardPage() {
-  const { locations, tenants, maintenance } = useApp();
+  const { locations, tenants, maintenance, gymMembers, familyUnits } = useApp();
   const navigate = useNavigate();
 
   const staffLocs = locations.filter(l => l.category.includes('Staff'));
@@ -74,10 +75,16 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Capacity"    value={totalCap.toLocaleString()}  sub="Staff beds"          icon={Building2}  accent="bg-gray-700" />
-        <StatCard label="Occupied"          value={totalOcc.toLocaleString()}  sub={`${Math.round((totalOcc/totalCap)*100)}% utilisation`} icon={Users} accent="bg-[#8CC63F]" />
-        <StatCard label="Available Beds"    value={available.toLocaleString()} sub="Across all depots"   icon={TrendingUp}  accent="bg-gray-500" />
-        <StatCard label="Open Maintenance"  value={openCount}                  sub="Requests pending"    icon={Wrench}      accent="bg-red-500" />
+        <StatCard label="Total Beds"         value={OCCUPANCY_SUMMARY.totalBeds.toLocaleString()}            sub={`${OCCUPANCY_SUMMARY.staffLocations} depots + ${OCCUPANCY_SUMMARY.adminLocations} admin`} icon={Building2} accent="bg-gray-700" />
+        <StatCard label="Occupied"           value={OCCUPANCY_SUMMARY.occupiedMowasalat.toLocaleString()}    sub={`${Math.round((OCCUPANCY_SUMMARY.occupiedMowasalat/OCCUPANCY_SUMMARY.totalBeds)*100)}% utilisation`} icon={Users} accent="bg-[#8CC63F]" />
+        <StatCard label="Gym Members"        value={OCCUPANCY_SUMMARY.gymMembers.toLocaleString()}           sub="Active subscriptions"  icon={Dumbbell}  accent="bg-gray-500" />
+        <StatCard label="Open Maintenance"   value={openCount}                                               sub="Facilities pending"    icon={Wrench}    accent="bg-red-500" />
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="Available Beds"     value={OCCUPANCY_SUMMARY.vacant.toLocaleString()}               sub="Across all depots"     icon={TrendingUp} accent="bg-gray-500" />
+        <StatCard label="Contractor Occupied" value={OCCUPANCY_SUMMARY.occupiedContractor.toLocaleString()}  sub="Non-Mowasalat staff"   icon={Users}     accent="bg-amber-500" />
+        <StatCard label="Family Units"        value={OCCUPANCY_SUMMARY.familyUnits.toLocaleString()}         sub="Admin accommodation"   icon={Home}      accent="bg-indigo-500" />
+        <StatCard label="Total Residents"     value={(OCCUPANCY_SUMMARY.occupiedMowasalat + OCCUPANCY_SUMMARY.occupiedContractor).toLocaleString()} sub="In all locations" icon={Building2} accent="bg-[#8CC63F]" />
       </div>
 
       {critical.length > 0 && (

@@ -9,6 +9,8 @@ import TenantsPage from './pages/TenantsPage';
 import MaintenancePage from './pages/MaintenancePage';
 import ReportsPage from './pages/ReportsPage';
 import SettingsPage from './pages/SettingsPage';
+import GymPage from './pages/GymPage';
+import FamilyAccoPage from './pages/FamilyAccoPage';
 
 function Guard({ children }) {
   const { user } = useApp();
@@ -25,6 +27,8 @@ export default function App() {
         <Route path="locations/:id" element={<LocationDetailPage />} />
         <Route path="tenants" element={<TenantsPage />} />
         <Route path="maintenance" element={<MaintenancePage />} />
+        <Route path="gym" element={<GymPage />} />
+        <Route path="family" element={<FamilyAccoPage />} />
         <Route path="reports" element={<ReportsPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>

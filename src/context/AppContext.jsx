@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { LOCATIONS, INITIAL_TENANTS, INITIAL_MAINTENANCE } from '../data/initialData';
+import { LOCATIONS, INITIAL_TENANTS, INITIAL_MAINTENANCE, GYM_MEMBERS, FAMILY_UNITS } from '../data/initialData';
 import {
   connectFirebase, getDb, isConnected,
   collection, doc, setDoc, deleteDoc, onSnapshot, getDocs, writeBatch,
@@ -17,6 +17,8 @@ export function AppProvider({ children }) {
   const [locations, setLocations]     = useState(() => load('karwa_locations', LOCATIONS));
   const [tenants, setTenants]         = useState(() => load('karwa_tenants', INITIAL_TENANTS));
   const [maintenance, setMaintenance] = useState(() => load('karwa_maintenance', INITIAL_MAINTENANCE));
+  const [gymMembers]                  = useState(GYM_MEMBERS);
+  const [familyUnits]                 = useState(FAMILY_UNITS);
   const [syncStatus, setSyncStatus]   = useState('offline'); // 'offline' | 'connecting' | 'online' | 'error'
   const unsubRefs = useRef([]);
 
@@ -170,7 +172,7 @@ export function AppProvider({ children }) {
   return (
     <AppContext.Provider value={{
       user, login, logout,
-      locations, tenants, maintenance,
+      locations, tenants, maintenance, gymMembers, familyUnits,
       syncStatus, connectToFirebase, disconnectFirebase, pushLocalDataToFirebase,
       addTenant, removeTenant, updateTenantStatus, importTenants,
       addMaintenanceRequest, updateMaintenanceStatus,

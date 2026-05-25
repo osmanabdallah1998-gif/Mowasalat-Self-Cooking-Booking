@@ -12,11 +12,16 @@ const PRIORITY_COLOR = {
   High:     'bg-orange-100 text-orange-700',
   Medium:   'bg-amber-100 text-amber-700',
   Low:      'bg-blue-100 text-blue-700',
+  Mid:      'bg-amber-100 text-amber-700',
 };
 const STATUS_COLOR = {
-  Open:          'bg-red-100 text-red-700',
-  'In Progress': 'bg-amber-100 text-amber-700',
-  Resolved:      'bg-green-100 text-green-700',
+  Open:                  'bg-red-100 text-red-700',
+  'In Progress':         'bg-amber-100 text-amber-700',
+  Resolved:              'bg-green-100 text-green-700',
+  Completed:             'bg-green-100 text-green-700',
+  'Pending (Internal)':  'bg-amber-100 text-amber-700',
+  Pending:               'bg-red-100 text-red-700',
+  Cancelled:             'bg-gray-100 text-gray-600',
 };
 
 const EMPTY = { locationId: '', title: '', description: '', priority: 'Medium', reportedBy: '' };
@@ -45,9 +50,13 @@ export default function MaintenancePage() {
     .sort((a, b) => b.reportedDate.localeCompare(a.reportedDate));
 
   const counts = { Open: 0, 'In Progress': 0, Resolved: 0 };
-  maintenance.forEach(r => { if (r.status in counts) counts[r.status]++; });
+  maintenance.forEach(r => {
+    if (r.status === 'Open' || r.status === 'Pending') counts['Open']++;
+    else if (r.status === 'In Progress' || r.status === 'Pending (Internal)') counts['In Progress']++;
+    else if (r.status === 'Resolved' || r.status === 'Completed') counts['Resolved']++;
+  });
 
-  const locationName = id => locations.find(l => l.id === id)?.name || id;
+  const locationName = (id, fallback) => locations.find(l => l.id === id)?.name || fallback || id;
 
   const input = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#8CC63F]';
 
@@ -119,7 +128,7 @@ export default function MaintenancePage() {
                       <div className="text-sm font-medium text-gray-800">{r.title}</div>
                       <div className="text-xs text-gray-400 truncate max-w-xs hidden sm:block">{r.description}</div>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-600 hidden sm:table-cell">{locationName(r.locationId)}</td>
+                    <td className="px-4 py-3 text-sm text-gray-600 hidden sm:table-cell">{locationName(r.locationId, r.locationName)}</td>
                     <td className="px-4 py-3 text-sm text-gray-600 hidden md:table-cell">{r.reportedBy}</td>
                     <td className="px-4 py-3 text-sm text-gray-600 hidden lg:table-cell">{r.reportedDate}</td>
                     <td className="px-4 py-3">
