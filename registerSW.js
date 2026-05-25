@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/Mowasalat-Self-Cooking-Booking/sw.js', { scope: '/Mowasalat-Self-Cooking-Booking/' })})}
