@@ -31230,3 +31230,72 @@ export const OCCUPANCY_SUMMARY = {
   gymMembers: 1755,
   familyUnits: 68,
 };
+
+export const NATIONALITY_STATS = [
+  { name: "Kenyan",       value: 2550 },
+  { name: "Indian",       value: 2195 },
+  { name: "Ugandan",      value: 775  },
+  { name: "Pakistani",    value: 638  },
+  { name: "Nepalese",     value: 599  },
+  { name: "Bangladeshi",  value: 544  },
+  { name: "Ghanaian",     value: 539  },
+  { name: "Sri Lankan",   value: 386  },
+  { name: "Tanzanian",    value: 383  },
+  { name: "Ethiopian",    value: 221  },
+  { name: "Filipino",     value: 149  },
+  { name: "Eritrean",     value: 128  },
+  { name: "Sudanese",     value: 126  },
+  { name: "Others",       value: 139  },
+];
+
+export const DEPT_STATS = [
+  { name: "MT Security",         value: 2298 },
+  { name: "MT Public Transport", value: 1578 },
+  { name: "MT Trainees",         value: 1566 },
+  { name: "Revenue Shared",      value: 1025 },
+  { name: "Metro Feeder",        value: 964  },
+  { name: "Corporate Service",   value: 629  },
+  { name: "LTS Contracts",       value: 358  },
+  { name: "TL Trainees",         value: 244  },
+  { name: "MT Services",         value: 226  },
+  { name: "Std Limousine",       value: 106  },
+  { name: "Others",              value: 379  },
+];
+
+export const FACILITIES_BY_LOC = [
+  { name: "Karwa City",           total: 1192, completed: 125,  pending: 1063 },
+  { name: "Wadi Aba Saleel",      total: 332,  completed: 293,  pending: 39   },
+  { name: "Al Khor Depot",        total: 221,  completed: 181,  pending: 35   },
+  { name: "Mowasalat HQ",        total: 121,  completed: 72,   pending: 49   },
+  { name: "Al Wakra Depot",       total: 62,   completed: 11,   pending: 48   },
+  { name: "Lusail Depot",         total: 57,   completed: 16,   pending: 39   },
+  { name: "Al Shamal",            total: 42,   completed: 27,   pending: 15   },
+  { name: "Al Rayyan Depot",      total: 33,   completed: 10,   pending: 22   },
+  { name: "Al Thumama",           total: 27,   completed: 11,   pending: 14   },
+  { name: "Mesaimeer Depot",      total: 18,   completed: 11,   pending: 7    },
+  { name: "Zekreet - Dukhan",     total: 18,   completed: 10,   pending: 8    },
+  { name: "Al Khor Old Depot",    total: 14,   completed: 9,    pending: 4    },
+  { name: "Al Sadd",              total: 15,   completed: 4,    pending: 11   },
+  { name: "AL Ghuwariyah",        total: 9,    completed: 7,    pending: 2    },
+  { name: "Industrial Area",      total: 6,    completed: 4,    pending: 1    },
+  { name: "QE Zekreet",           total: 4,    completed: 3,    pending: 1    },
+  { name: "Dukhan",               total: 11,   completed: 4,    pending: 7    },
+];
+
+export const DISCIPLINE_STATS = [
+  { name: "Maintenance",    value: 1946 },
+  { name: "General Svc",   value: 128  },
+  { name: "Facilities",     value: 97   },
+  { name: "Safety",         value: 7    },
+  { name: "Leasing",        value: 4    },
+];
+
+export const GYM_BY_DEPOT = [
+  { name: "Karwa City", count: 481 },
+  { name: "MSD",        count: 267 },
+  { name: "Industrial", count: 360 },
+  { name: "LUD",        count: 226 },
+  { name: "ARD",        count: 196 },
+  { name: "WAD",        count: 137 },
+  { name: "AKD",        count: 88  },
+];
